@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Modelos pesados
+*.bin
+*.pt
+*.pth
+*.safetensors
+backend/models/checkpoints/
+backend/models/model_output/
+
+# Datos sensibles o reales
+data/raw/private/
+data/raw/sensitive/
+*.xlsx
+*.xls
+
+# Logs
+*.log
+logs/
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Frontend
+node_modules/
+dist/
+build/
+.env.local
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Presentaciones temporales
+~$*.pptx
+~$*.docx
