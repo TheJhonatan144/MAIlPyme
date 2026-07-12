@@ -1,76 +1,77 @@
-\# Dataset MailPyme AI
+# Dataset MailPyme AI
 
+## Descripción
 
+El dataset está conformado por **680 correos electrónicos sintéticos** representativos del flujo de comunicación de una MiPYME ecuatoriana.
 
-\## Descripción
+---
 
+## Categorías de clasificación
 
+| Categoría |
+|-----------|
+| Contratos |
+| Facturas |
+| Colaboraciones |
+| Clientes |
+| Publicidad |
+| Varios |
 
-El dataset está conformado por 680 correos electrónicos sintéticos representativos del flujo de comunicación de una MiPYME ecuatoriana.
+---
 
+## Distribución del dataset
 
+| Categoría | Total |
+|-----------|------:|
+| Contratos | 110 |
+| Facturas | 115 |
+| Colaboraciones | 108 |
+| Clientes | 123 |
+| Publicidad | 108 |
+| Varios | 116 |
+| **Total** | **680** |
 
-\## Categorías
+---
 
+## División del dataset
 
+Se realizó una **división estratificada** para preservar la proporción de las categorías durante el entrenamiento del modelo BETO.
 
-\- Contratos
+| Conjunto | Registros | Porcentaje |
+|-----------|----------:|-----------:|
+| Train | 544 | 80 % |
+| Validation | 68 | 10 % |
+| Test | 68 | 10 % |
 
-\- Facturas
+---
 
-\- Colaboraciones
+## Campos del dataset
 
-\- Clientes
+Cada registro contiene los siguientes atributos:
 
-\- Publicidad
+| Campo | Descripción |
+|--------|-------------|
+| id | Identificador único del correo |
+| subject | Asunto del correo |
+| sender | Dirección del remitente |
+| date | Fecha del correo |
+| body | Contenido del mensaje |
+| label | Categoría asignada |
+| source | Origen del dato (synthetic) |
 
-\- Varios
+---
 
+## Preprocesamiento
 
+Durante la preparación del dataset se realizaron las siguientes actividades:
 
-\## División del dataset
+- Construcción de correos sintéticos representativos de una MiPYME.
+- Anonimización de remitentes e información sensible.
+- Revisión manual de las etiquetas.
+- División estratificada en entrenamiento (80 %), validación (10 %) y prueba (10 %).
 
+---
 
+## Observaciones
 
-Se realizó una división estratificada para el entrenamiento del modelo BETO:
-
-
-
-\- Train: 544 registros (80%)
-
-\- Validation: 68 registros (10%)
-
-\- Test: 68 registros (10%)
-
-
-
-\## Campos
-
-
-
-Cada registro contiene:
-
-
-
-\- id
-
-\- subject
-
-\- sender
-
-\- date
-
-\- body
-
-\- label
-
-\- source
-
-
-
-\## Observaciones
-
-
-
-Los correos fueron anonimizados y generados con fines académicos. No contienen información personal ni empresarial real.
-
+Este dataset fue construido exclusivamente con fines académicos para el proyecto **MailPyme AI** de la Escuela Politécnica Nacional. No contiene información personal ni empresarial real.
