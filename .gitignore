@@ -1,0 +1,19 @@
+# Entornos virtuales
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Variables de entorno
+.env
+.env.*
+
+# IDEs y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
