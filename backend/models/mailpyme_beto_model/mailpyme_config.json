@@ -1,0 +1,14 @@
+{
+  "model_name": "dccuchile/bert-base-spanish-wwm-cased",
+  "labels": [
+    "Contratos",
+    "Facturas",
+    "Colaboraciones",
+    "Clientes",
+    "Publicidad",
+    "Varios"
+  ],
+  "max_length": 256,
+  "epochs": 3,
+  "learning_rate": 2e-05
+}
