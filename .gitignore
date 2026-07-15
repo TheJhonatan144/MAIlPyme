@@ -38,6 +38,7 @@ node_modules/
 dist/
 build/
 .env.local
+frontend/.venv/
 
 # Sistema
 .DS_Store

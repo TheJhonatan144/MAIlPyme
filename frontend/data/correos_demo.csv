@@ -1,0 +1,11 @@
+id,fecha,remitente,asunto,cuerpo,categoria,confianza,estado
+1,2026-07-01,ventas@proveedor.com,Factura pendiente de pago,"Estimados, adjuntamos la factura correspondiente al servicio prestado durante el mes de junio. Quedamos atentos a la confirmación del pago.",Facturas,0.94,Clasificado
+2,2026-07-02,legal@empresa.com,Revisión de contrato de servicios,"Buenos días, enviamos el borrador del contrato para su revisión. Agradecemos confirmar si están de acuerdo con las cláusulas establecidas.",Contratos,0.91,Clasificado
+3,2026-07-03,marketing@aliados.com,Propuesta de colaboración comercial,"Hola, nos gustaría coordinar una reunión para conversar sobre una posible colaboración entre nuestras empresas y revisar beneficios conjuntos.",Colaboraciones,0.88,Clasificado
+4,2026-07-04,cliente1@gmail.com,Consulta sobre pedido realizado,"Buenas tardes, quisiera conocer el estado de mi pedido y confirmar la fecha estimada de entrega. Quedo atento a su respuesta.",Clientes,0.89,Clasificado
+5,2026-07-05,promos@tienda.com,Oferta especial para empresas,"Aproveche nuestra campaña empresarial con descuentos exclusivos en paquetes promocionales durante esta semana.",Publicidad,0.96,Clasificado
+6,2026-07-06,info@organizacion.com,Comunicado general,"Estimados, compartimos información general sobre los cambios en nuestros horarios de atención durante el feriado nacional.",Varios,0.81,Clasificado
+7,2026-07-07,administracion@cliente.com,Factura asociada al contrato firmado,"Adjunto la factura correspondiente al contrato firmado ayer. El objetivo principal de este mensaje es solicitar el registro contable del documento.",Facturas,0.87,Clasificado
+8,2026-07-08,gerencia@empresaaliada.com,Convenio y reunión estratégica,"Después de revisar la propuesta comercial queremos reunirnos para discutir un convenio de cooperación entre ambas empresas.",Colaboraciones,0.84,Clasificado
+9,2026-07-09,soporte@cliente.com,Inconveniente con servicio contratado,"Hola, tenemos un problema con el servicio contratado y necesitamos asistencia para resolverlo antes del cierre de la semana.",Clientes,0.86,Clasificado
+10,2026-07-10,rrhh@empresa.com,Actualización interna,"Estimados colaboradores, les informamos sobre una actualización en los canales internos de comunicación de la empresa.",Varios,0.78,Clasificado
