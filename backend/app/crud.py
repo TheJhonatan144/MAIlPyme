@@ -31,3 +31,14 @@ def get_emails(db: Session, skip: int = 0, limit: int = 100):
 
 def get_email_by_id(db: Session, email_id: int):
     return db.query(models.Email).filter(models.Email.id == email_id).first()
+
+def delete_email(db: Session, email_id: int) -> bool:
+    db_email = get_email_by_id(db=db, email_id=email_id)
+
+    if db_email is None:
+        return False
+
+    db.delete(db_email)
+    db.commit()
+
+    return True

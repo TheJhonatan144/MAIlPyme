@@ -2,7 +2,7 @@ from fastapi import FastAPI
 
 from app import models
 from app.database import engine
-from app.routers import emails
+from app.routers import emails, metrics
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -13,6 +13,7 @@ app = FastAPI(
 )
 
 app.include_router(emails.router)
+app.include_router(metrics.router)
 
 
 @app.get("/")

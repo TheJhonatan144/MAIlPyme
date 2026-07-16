@@ -40,3 +40,19 @@ def get_email(
         raise HTTPException(status_code=404, detail="Correo no encontrado")
 
     return db_email
+
+
+@router.delete("/{email_id}")
+def delete_email(
+    email_id: int,
+    db: Session = Depends(get_db),
+):
+    was_deleted = crud.delete_email(db=db, email_id=email_id)
+
+    if not was_deleted:
+        raise HTTPException(status_code=404, detail="Correo no encontrado")
+
+    return {
+        "message": "Correo eliminado correctamente",
+        "email_id": email_id,
+    }
