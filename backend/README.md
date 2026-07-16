@@ -13,6 +13,20 @@ Este backend permite recibir correos, clasificarlos en una categoría empresaria
 - SQLite
 - Pydantic
 
+## Cambios principales
+
+- API base con FastAPI.
+- Endpoint de salud `/health`.
+- Base de datos SQLite con SQLAlchemy.
+- Tabla para correos clasificados.
+- Endpoint `POST /emails/classify`.
+- Endpoints para listar, consultar y eliminar correos.
+- Endpoint de métricas `/metrics/summary`.
+- Endpoint de categorías `/categories/`.
+- Registro de tiempo de procesamiento por clasificación.
+- README del backend.
+- Pruebas básicas con pytest.
+
 ## Estructura del backend
 
 ```text
