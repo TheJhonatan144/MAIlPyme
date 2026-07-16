@@ -1,0 +1,23 @@
+# Entornos virtuales de Python
+.venv/
+venv/
+env/
+backend/.venv/
+frontend/.venv/
+
+# Caché de Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Variables de entorno reales
+.env
+
+# Base de datos local
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos temporales
+.DS_Store
+Thumbs.db
