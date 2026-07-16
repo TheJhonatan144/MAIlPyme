@@ -29,7 +29,12 @@ def get_metrics_summary(db: Session = Depends(get_db)):
         for category, count in category_rows
     }
 
+    average_processing_time = db.query(
+        func.avg(models.Email.processing_time_ms)
+    ).scalar()
+
     return {
         "total_emails": total_emails,
+        "average_processing_time_ms": round(average_processing_time or 0, 2),
         "by_category": by_category,
     }
