@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, String, Text
+from sqlalchemy import Column, DateTime, Float, Integer, String, Text
 
 from app.database import Base
 
@@ -14,4 +14,6 @@ class Email(Base):
     body = Column(Text, nullable=False)
     predicted_category = Column(String(50), nullable=False)
     confidence = Column(String(20), nullable=False, default="temporal")
+    processing_time_ms = Column(Float, nullable=False, default=0.0)
     created_at = Column(DateTime, default=datetime.utcnow)
+    

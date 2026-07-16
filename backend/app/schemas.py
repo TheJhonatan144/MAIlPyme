@@ -27,6 +27,7 @@ class EmailResponse(BaseModel):
     body: str
     predicted_category: Category
     confidence: str
+    processing_time_ms: float
     created_at: datetime
 
     model_config = {

@@ -1,14 +1,21 @@
+from time import perf_counter
 from sqlalchemy.orm import Session
 
 from app import models, schemas
 from app.classifier import classify_email
 
 
+
 def create_classified_email(db: Session, email: schemas.EmailCreate) -> models.Email:
+    start_time = perf_counter()
+
     predicted_category, confidence = classify_email(
         subject=email.subject,
         body=email.body,
     )
+
+    end_time = perf_counter()
+    processing_time_ms = round((end_time - start_time) * 1000, 2)
 
     db_email = models.Email(
         sender=email.sender,
@@ -16,6 +23,7 @@ def create_classified_email(db: Session, email: schemas.EmailCreate) -> models.E
         body=email.body,
         predicted_category=predicted_category,
         confidence=confidence,
+        processing_time_ms=processing_time_ms,
     )
 
     db.add(db_email)
