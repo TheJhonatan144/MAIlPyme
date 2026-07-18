@@ -2,6 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 import plotly.express as px
+import requests
 import streamlit as st
 
 
@@ -18,10 +19,80 @@ st.set_page_config(
 # =========================
 # Carga de datos
 # =========================
+@st.cache_data(ttl=30)
+def cargar_datos_desde_api(api_base_url):
+    response = requests.get(f"{api_base_url}/emails/", timeout=5)
+    response.raise_for_status()
+
+    correos = response.json()
+
+    if not correos:
+        return pd.DataFrame()
+
+    df_api = pd.DataFrame(correos)
+
+    df_api = df_api.rename(
+        columns={
+            "sender": "remitente",
+            "subject": "asunto",
+            "body": "cuerpo",
+            "predicted_category": "categoria",
+            "confidence": "confianza",
+            "created_at": "fecha",
+        }
+    )
+
+    if "processing_time_ms" not in df_api.columns:
+        df_api["processing_time_ms"] = 0.0
+
+    df_api["estado"] = "Clasificado"
+
+    columnas_necesarias = [
+        "id",
+        "fecha",
+        "remitente",
+        "asunto",
+        "cuerpo",
+        "categoria",
+        "confianza",
+        "estado",
+        "processing_time_ms",
+    ]
+
+    for columna in columnas_necesarias:
+        if columna not in df_api.columns:
+            df_api[columna] = ""
+
+    return df_api[columnas_necesarias]
+
+
 @st.cache_data
-def cargar_datos():
+def cargar_datos_demo():
     ruta = Path(__file__).parent / "data" / "correos_demo.csv"
-    return pd.read_csv(ruta)
+    df_demo = pd.read_csv(ruta)
+
+    if "processing_time_ms" not in df_demo.columns:
+        df_demo["processing_time_ms"] = 0.0
+
+    return df_demo
+
+
+def cargar_datos():
+    api_base_url = st.secrets.get("API_BASE_URL", "http://127.0.0.1:8000")
+
+    try:
+        df_api = cargar_datos_desde_api(api_base_url)
+
+        if not df_api.empty:
+            st.sidebar.success("Datos cargados desde backend")
+            return df_api
+
+        st.sidebar.warning("Backend sin correos. Usando datos demo.")
+        return cargar_datos_demo()
+
+    except requests.exceptions.RequestException:
+        st.sidebar.warning("Backend no disponible. Usando datos demo.")
+        return cargar_datos_demo()
 
 
 # =========================
@@ -117,17 +188,27 @@ def aplicar_filtros(df, modo_tecnico=False):
         ]
 
     if modo_tecnico:
-        confianza_minima = st.sidebar.slider(
-            "Confianza mínima",
-            min_value=0.0,
-            max_value=1.0,
-            value=0.0,
-            step=0.05
+        confianza_numerica = pd.to_numeric(
+            df_filtrado["confianza"],
+            errors="coerce"
         )
 
-        df_filtrado = df_filtrado[
-            df_filtrado["confianza"] >= confianza_minima
-        ]
+        if confianza_numerica.notna().any():
+            confianza_minima = st.sidebar.slider(
+                "Confianza mínima",
+                min_value=0.0,
+                max_value=1.0,
+                value=0.0,
+                step=0.05
+            )
+
+            df_filtrado = df_filtrado[
+                confianza_numerica >= confianza_minima
+            ]
+        else:
+            st.sidebar.info(
+                "La confianza actual del backend es temporal y no numérica."
+            )
 
     return df_filtrado
 
@@ -146,6 +227,8 @@ def mostrar_vista_usuario(df_filtrado):
         **Contratos, Facturas, Colaboraciones, Clientes, Publicidad o Varios**.
         """
     )
+
+    mostrar_formulario_clasificacion()
 
     st.divider()
 
@@ -208,14 +291,21 @@ def mostrar_vista_usuario(df_filtrado):
 # Vista desarrollador/modelo
 # =========================
 def mostrar_vista_tecnica(df_filtrado):
-    st.title("📊 Panel técnico del modelo")
+    st.title("Panel técnico del modelo")
     st.caption(
         "Vista para revisar métricas, confianza y comportamiento de la clasificación."
     )
 
     total_correos = len(df_filtrado)
+    confianza_numerica = pd.to_numeric(
+        df_filtrado["confianza"],
+        errors="coerce"
+    )
+
     confianza_promedio = (
-        df_filtrado["confianza"].mean() if total_correos > 0 else 0
+        confianza_numerica.mean()
+        if total_correos > 0 and confianza_numerica.notna().any()
+        else None
     )
     categoria_mas_frecuente = (
         df_filtrado["categoria"].mode()[0]
@@ -229,7 +319,10 @@ def mostrar_vista_tecnica(df_filtrado):
         st.metric("Correos clasificados", total_correos)
 
     with col2:
-        st.metric("Confianza promedio", f"{confianza_promedio:.2%}")
+        if confianza_promedio is not None:
+            st.metric("Confianza promedio", f"{confianza_promedio:.2%}")
+        else:
+            st.metric("Confianza promedio", "Temporal")
 
     with col3:
         st.metric("Categoría más frecuente", categoria_mas_frecuente)
@@ -264,17 +357,30 @@ def mostrar_vista_tecnica(df_filtrado):
     with col_graf2:
         st.subheader("Confianza por correo")
 
-        if total_correos > 0:
+        confianza_numerica = pd.to_numeric(
+            df_filtrado["confianza"],
+            errors="coerce"
+        )
+
+        if total_correos > 0 and confianza_numerica.notna().any():
+            df_grafico = df_filtrado.copy()
+            df_grafico["confianza_numerica"] = confianza_numerica
+
             fig_confianza = px.scatter(
-                df_filtrado,
+                df_grafico,
                 x="fecha",
-                y="confianza",
+                y="confianza_numerica",
                 color="categoria",
                 hover_data=["asunto", "remitente"],
                 title="Nivel de confianza de clasificación"
             )
 
             st.plotly_chart(fig_confianza, use_container_width=True)
+        elif total_correos > 0:
+            st.info(
+                "El backend actual devuelve una confianza temporal. "
+                "El gráfico estará disponible cuando la confianza sea numérica."
+            )
         else:
             st.info("No hay datos para mostrar con los filtros actuales.")
 
@@ -327,18 +433,70 @@ def mostrar_vista_tecnica(df_filtrado):
     with col_det2:
         st.markdown("### Resultado del modelo")
         st.success(f"Categoría: {correo['categoria']}")
-        st.metric("Confianza", f"{correo['confianza']:.2%}")
+        confianza_correo = pd.to_numeric(
+            pd.Series([correo["confianza"]]),
+            errors="coerce"
+        ).iloc[0]
+
+        if pd.notna(confianza_correo):
+            st.metric("Confianza", f"{confianza_correo:.2%}")
+        else:
+            st.metric("Confianza", str(correo["confianza"]))
         st.markdown(f"**Estado:** {correo['estado']}")
 
     st.caption(
         "Vista técnica: acceso restringido para revisión del modelo, métricas y confianza."
     )
 
+# ==============================
+# Ingreso de correo a clasificar
+# ==============================
+def mostrar_formulario_clasificacion():
+    api_base_url = st.secrets.get("API_BASE_URL", "http://127.0.0.1:8000")
+
+    with st.expander("Clasificar nuevo correo"):
+        with st.form("form_clasificar_correo"):
+            remitente = st.text_input("Remitente")
+            asunto = st.text_input("Asunto")
+            cuerpo = st.text_area("Contenido del correo")
+
+            enviar = st.form_submit_button("Clasificar correo")
+
+            if enviar:
+                if not remitente or not asunto or not cuerpo:
+                    st.warning("Completa remitente, asunto y contenido.")
+                    return
+
+                payload = {
+                    "sender": remitente,
+                    "subject": asunto,
+                    "body": cuerpo,
+                }
+
+                try:
+                    response = requests.post(
+                        f"{api_base_url}/emails/classify",
+                        json=payload,
+                        timeout=10
+                    )
+                    response.raise_for_status()
+
+                    st.success("Correo clasificado correctamente.")
+                    st.cache_data.clear()
+                    st.rerun()
+
+                except requests.exceptions.RequestException:
+                    st.error(
+                        "No se pudo conectar con el backend para clasificar el correo."
+                    )
+
 # =========================
 # Flujo principal
 # =========================
 df = cargar_datos()
-
+if st.sidebar.button("Actualizar datos"):
+    st.cache_data.clear()
+    st.rerun()
 modo_tecnico = verificar_acceso_tecnico()
 df_filtrado = aplicar_filtros(df, modo_tecnico)
 

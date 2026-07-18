@@ -31,6 +31,15 @@ Dashboard web para visualizar la clasificación automática de correos electrón
 - Publicidad
 - Varios
 
+## Integración con backend
+
+El dashboard está preparado para consumir datos desde la API del backend.
+
+Por defecto intenta conectarse a:
+
+```text
+http://127.0.0.1:8000
+
 ## Estructura del frontend
 
 ```text
