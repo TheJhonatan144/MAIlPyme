@@ -1,0 +1,52 @@
+{
+  "status": "OK",
+  "timestamp_local": "2026-07-18 13:35:43",
+  "system": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "pytorch": "2.12.1+cu130",
+    "transformers": "5.14.1"
+  },
+  "gpu": {
+    "name": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda_compiled": "13.0",
+    "total_vram_mib": 8187.5,
+    "memory_after_model_mib": 419.57,
+    "current_memory_mib": 427.71,
+    "peak_memory_mib": 441.7
+  },
+  "model": {
+    "name": "dccuchile/bert-base-spanish-wwm-cased",
+    "num_labels": 6,
+    "labels": [
+      "Contratos",
+      "Facturas",
+      "Colaboraciones",
+      "Clientes",
+      "Publicidad",
+      "Varios"
+    ],
+    "total_parameters": 109855494,
+    "trainable_parameters": 109855494
+  },
+  "smoke_test": {
+    "batch_size": 8,
+    "max_length": 128,
+    "dynamic_padded_length": 59,
+    "logits_shape": [
+      8,
+      6
+    ],
+    "finite_logits": true,
+    "elapsed_ms": 246.46,
+    "predicted_label_counts_untrained_head": {
+      "Contratos": 0,
+      "Facturas": 8,
+      "Colaboraciones": 0,
+      "Clientes": 0,
+      "Publicidad": 0,
+      "Varios": 0
+    },
+    "note": "Las predicciones no tienen valor evaluativo porque la cabeza de clasificación todavía no ha sido entrenada."
+  }
+}

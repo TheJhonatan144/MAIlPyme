@@ -1,0 +1,51 @@
+{
+  "status": "OK",
+  "timestamp_local": "2026-07-18 14:38:33",
+  "model_dir": "backend/models/mailpyme_beto_model",
+  "test_file": "[conjunto de prueba privado no publicado]",
+  "test_sha256": "0f34fabf83165e614063ad99db081915e4f4790f5c3286249ca4262d5bee0d88",
+  "num_test_samples": 84,
+  "metrics": {
+    "accuracy": 1.0,
+    "precision_macro": 1.0,
+    "recall_macro": 1.0,
+    "f1_macro": 1.0,
+    "precision_weighted": 1.0,
+    "recall_weighted": 1.0,
+    "f1_weighted": 1.0
+  },
+  "confidence": {
+    "mean_all": 0.9832699298858643,
+    "mean_correct": 0.9832699298858643,
+    "mean_errors": null
+  },
+  "errors": {
+    "count": 0,
+    "rate": 0.0
+  },
+  "performance": {
+    "batch_size": 16,
+    "max_length": 128,
+    "elapsed_seconds": 0.09620460000587627,
+    "samples_per_second": 873.1391221923816,
+    "batch_equivalent_ms_per_email": 1.1452928572128127,
+    "gpu_peak_memory_mib": 453.14,
+    "note": "Esta medición corresponde a evaluación por lotes. La latencia individual se medirá en el siguiente paso."
+  },
+  "environment": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "pytorch": "2.12.1+cu130",
+    "transformers": "5.14.1",
+    "cuda_compiled": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  },
+  "labels": [
+    "Contratos",
+    "Facturas",
+    "Colaboraciones",
+    "Clientes",
+    "Publicidad",
+    "Varios"
+  ]
+}

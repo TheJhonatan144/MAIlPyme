@@ -1,0 +1,7 @@
+﻿max_length,fits_without_truncation,would_be_truncated,coverage_pct,truncation_pct
+128,840,0,100.0,0.0
+192,840,0,100.0,0.0
+256,840,0,100.0,0.0
+320,840,0,100.0,0.0
+384,840,0,100.0,0.0
+512,840,0,100.0,0.0

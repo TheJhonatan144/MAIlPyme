@@ -1,0 +1,10 @@
+﻿label,precision,recall,f1-score,support
+Contratos,1.0,1.0,1.0,12.0
+Facturas,1.0,1.0,1.0,14.0
+Colaboraciones,1.0,1.0,1.0,11.0
+Clientes,1.0,1.0,1.0,13.0
+Publicidad,1.0,1.0,1.0,12.0
+Varios,1.0,1.0,1.0,22.0
+accuracy,1.0,1.0,1.0,1.0
+macro avg,1.0,1.0,1.0,84.0
+weighted avg,1.0,1.0,1.0,84.0

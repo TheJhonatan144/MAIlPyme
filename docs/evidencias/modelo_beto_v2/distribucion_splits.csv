@@ -1,0 +1,8 @@
+﻿label,train,validation,test,total,train_pct,validation_pct,test_pct
+Contratos,96,12,12,120,80.0,10.0,10.0
+Facturas,108,13,14,135,80.0,9.63,10.37
+Colaboraciones,95,12,11,118,80.51,10.17,9.32
+Clientes,106,14,13,133,79.7,10.53,9.77
+Publicidad,96,12,12,120,80.0,10.0,10.0
+Varios,171,21,22,214,79.91,9.81,10.28
+TOTAL,672,84,84,840,80.0,10.0,10.0

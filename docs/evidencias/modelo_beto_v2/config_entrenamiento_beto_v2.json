@@ -1,0 +1,65 @@
+{
+  "model_name": "dccuchile/bert-base-spanish-wwm-cased",
+  "labels": [
+    "Contratos",
+    "Facturas",
+    "Colaboraciones",
+    "Clientes",
+    "Publicidad",
+    "Varios"
+  ],
+  "label_to_id": {
+    "Contratos": 0,
+    "Facturas": 1,
+    "Colaboraciones": 2,
+    "Clientes": 3,
+    "Publicidad": 4,
+    "Varios": 5
+  },
+  "training_config": {
+    "learning_rate": 2e-05,
+    "num_train_epochs": 5,
+    "per_device_train_batch_size": 8,
+    "per_device_eval_batch_size": 16,
+    "gradient_accumulation_steps": 2,
+    "effective_train_batch_size": 16,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "max_length": 128,
+    "fp16": true,
+    "tf32": true,
+    "eval_strategy": "epoch",
+    "save_strategy": "epoch",
+    "metric_for_best_model": "f1_macro",
+    "greater_is_better": true,
+    "early_stopping_patience": 2,
+    "save_total_limit": 2,
+    "seed": 42
+  },
+  "class_weights": {
+    "Contratos": 1.166667,
+    "Facturas": 1.037037,
+    "Colaboraciones": 1.178947,
+    "Clientes": 1.056604,
+    "Publicidad": 1.166667,
+    "Varios": 0.654971
+  },
+  "dataset_sizes": {
+    "train": 672,
+    "validation": 84,
+    "test": 84
+  },
+  "environment": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "pytorch": "2.12.1+cu130",
+    "transformers": "5.14.1",
+    "cuda_compiled": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "vram_total_mib": 8187.5
+  },
+  "parameters": {
+    "total": 109855494,
+    "trainable": 109855494
+  }
+}

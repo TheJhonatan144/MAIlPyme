@@ -1,5 +1,8 @@
 {
   "model_name": "dccuchile/bert-base-spanish-wwm-cased",
+  "model_version": "mailpyme_beto_v2",
+  "max_length": 128,
+  "num_labels": 6,
   "labels": [
     "Contratos",
     "Facturas",
@@ -8,7 +11,17 @@
     "Publicidad",
     "Varios"
   ],
-  "max_length": 256,
-  "epochs": 3,
-  "learning_rate": 2e-05
+  "input_format": "Asunto: {subject} Remitente: {sender} Cuerpo: {body}",
+  "dataset_size": 840,
+  "split_sizes": {
+    "train": 672,
+    "validation": 84,
+    "test": 84
+  },
+  "test_metrics": {
+    "accuracy": 1.0,
+    "f1_macro": 1.0,
+    "f1_weighted": 1.0
+  },
+  "privacy_note": "No publicar datasets, correos reales ni archivos con datos sensibles."
 }

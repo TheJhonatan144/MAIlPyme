@@ -1,0 +1,13 @@
+﻿metric,value
+accuracy,1.0
+precision_macro,1.0
+recall_macro,1.0
+f1_macro,1.0
+precision_weighted,1.0
+recall_weighted,1.0
+f1_weighted,1.0
+num_test_samples,84.0
+num_errors,0.0
+mean_confidence,0.9832699298858643
+samples_per_second,873.1391221923816
+gpu_peak_memory_mib,453.14
