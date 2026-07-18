@@ -12,11 +12,13 @@ Dashboard web para visualizar la clasificación automática de correos electrón
 ## Funcionalidades principales
 
 - Visualización de correos clasificados.
+- Vista simplificada para usuario final.
+- Vista técnica protegida mediante contraseña.
 - Filtro por categoría.
-- Filtro por nivel mínimo de confianza.
 - Búsqueda por asunto, remitente o contenido.
-- Métricas generales del sistema.
+- Métricas generales del sistema para el equipo técnico.
 - Gráficos de distribución por categoría.
+- Gráfico de confianza por correo.
 - Vista detallada de cada correo.
 - Preparado para conectarse posteriormente con la API del backend.
 
@@ -29,9 +31,21 @@ Dashboard web para visualizar la clasificación automática de correos electrón
 - Publicidad
 - Varios
 
-## Instalación
+## Estructura del frontend
 
-Desde la carpeta `frontend/`:
-
-```bash
-pip install -r requirements.txt
+```text
+frontend/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+│
+├── data/
+│   └── correos_demo.csv
+│
+├── assets/
+│   └── .gitkeep
+│
+└── .streamlit/
+    ├── secrets.example.toml
+    └── secrets.toml
