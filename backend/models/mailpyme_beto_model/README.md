@@ -35,7 +35,7 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
-MODEL_PATH = Path("backend/models/mailpyme_beto_model_v2")
+MODEL_PATH = Path("backend/models/mailpyme_beto_model")
 
 tokenizer = AutoTokenizer.from_pretrained(
     MODEL_PATH,
