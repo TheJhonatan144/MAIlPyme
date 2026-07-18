@@ -46,3 +46,6 @@ Thumbs.db
 # Presentaciones temporales
 ~$*.pptx
 ~$*.docx
+
+# Modelo BETO oficial administrado con Git LFS
+!backend/models/mailpyme_beto_model/model.safetensors

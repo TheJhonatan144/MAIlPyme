@@ -1,0 +1,2 @@
+﻿runs,success_count,success_rate,inconsistencies,non_finite_outputs,exceptions,confidence_tolerance,latency_mean_ms,latency_p95_ms,latency_max_ms
+500,500,1.0,0,0,0,0.0001,7.111269798129797,8.98407495697029,14.109699986875057

@@ -1,0 +1,58 @@
+{
+  "model_name": "dccuchile/bert-base-spanish-wwm-cased",
+  "tokenizer_class": "BertTokenizer",
+  "tokenizer_model_max_length": 512,
+  "num_emails": 840,
+  "min_tokens": 27,
+  "mean_tokens": 46.98,
+  "median_tokens": 47,
+  "max_tokens": 81,
+  "percentiles": {
+    "p50": 47,
+    "p75": 52,
+    "p90": 56,
+    "p95": 59,
+    "p97": 63,
+    "p99": 71,
+    "p100": 81
+  },
+  "candidate_coverage": {
+    "128": {
+      "fits_without_truncation": 840,
+      "would_be_truncated": 0,
+      "coverage_pct": 100.0,
+      "truncation_pct": 0.0
+    },
+    "192": {
+      "fits_without_truncation": 840,
+      "would_be_truncated": 0,
+      "coverage_pct": 100.0,
+      "truncation_pct": 0.0
+    },
+    "256": {
+      "fits_without_truncation": 840,
+      "would_be_truncated": 0,
+      "coverage_pct": 100.0,
+      "truncation_pct": 0.0
+    },
+    "320": {
+      "fits_without_truncation": 840,
+      "would_be_truncated": 0,
+      "coverage_pct": 100.0,
+      "truncation_pct": 0.0
+    },
+    "384": {
+      "fits_without_truncation": 840,
+      "would_be_truncated": 0,
+      "coverage_pct": 100.0,
+      "truncation_pct": 0.0
+    },
+    "512": {
+      "fits_without_truncation": 840,
+      "would_be_truncated": 0,
+      "coverage_pct": 100.0,
+      "truncation_pct": 0.0
+    }
+  },
+  "recommended_max_length_95pct": 128
+}

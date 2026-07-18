@@ -1,0 +1,111 @@
+{
+  "status": "OK",
+  "timestamp_local": "2026-07-18 15:00:27",
+  "model_dir": "backend/models/mailpyme_beto_model",
+  "environment": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "pytorch": "2.12.1+cu130",
+    "transformers": "5.14.1",
+    "cuda_compiled": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "gpu_total_vram_mib": 8187.5,
+    "logical_cpu_count": 16,
+    "physical_cpu_count": 10,
+    "system_ram_total_mib": 32387.29
+  },
+  "benchmark_config": {
+    "max_length": 128,
+    "warmup_runs": 20,
+    "individual_runs": 300,
+    "stability_runs": 500,
+    "batch_sizes": [
+      1,
+      4,
+      8,
+      16,
+      32
+    ],
+    "batch_repetitions": 20
+  },
+  "individual_latency": {
+    "runs": 300,
+    "mean_ms": 7.102418000188966,
+    "median_ms": 6.772449996788055,
+    "std_ms": 1.1093726026773605,
+    "min_ms": 5.795900011435151,
+    "p90_ms": 8.147599984658882,
+    "p95_ms": 8.99813501746394,
+    "p99_ms": 12.542308961274099,
+    "max_ms": 13.783800008241087
+  },
+  "throughput": [
+    {
+      "batch_size": 1,
+      "repetitions": 20,
+      "mean_batch_latency_ms": 6.889324996154755,
+      "p95_batch_latency_ms": 8.017264999216422,
+      "mean_latency_per_email_ms": 6.889324996154755,
+      "throughput_emails_per_second": 145.1521013391218
+    },
+    {
+      "batch_size": 4,
+      "repetitions": 20,
+      "mean_batch_latency_ms": 7.355634990381077,
+      "p95_batch_latency_ms": 8.462309982860463,
+      "mean_latency_per_email_ms": 1.8389087475952692,
+      "throughput_emails_per_second": 543.8007738598744
+    },
+    {
+      "batch_size": 8,
+      "repetitions": 20,
+      "mean_batch_latency_ms": 7.530369993764907,
+      "p95_batch_latency_ms": 8.719839999685064,
+      "mean_latency_per_email_ms": 0.9412962492206134,
+      "throughput_emails_per_second": 1062.3647983597011
+    },
+    {
+      "batch_size": 16,
+      "repetitions": 20,
+      "mean_batch_latency_ms": 11.45454000798054,
+      "p95_batch_latency_ms": 12.349605007329956,
+      "mean_latency_per_email_ms": 0.7159087504987838,
+      "throughput_emails_per_second": 1396.8260610074758
+    },
+    {
+      "batch_size": 32,
+      "repetitions": 20,
+      "mean_batch_latency_ms": 18.888270005118102,
+      "p95_batch_latency_ms": 19.73157502070535,
+      "mean_latency_per_email_ms": 0.5902584376599407,
+      "throughput_emails_per_second": 1694.173155684933
+    }
+  ],
+  "stability": {
+    "runs": 500,
+    "success_count": 500,
+    "success_rate": 1.0,
+    "inconsistencies": 0,
+    "non_finite_outputs": 0,
+    "exceptions": 0,
+    "confidence_tolerance": 0.0001,
+    "latency_mean_ms": 7.111269798129797,
+    "latency_p95_ms": 8.98407495697029,
+    "latency_max_ms": 14.109699986875057
+  },
+  "resources": {
+    "samples": 126,
+    "process_cpu_mean_percent": 99.29126984126984,
+    "process_cpu_max_percent": 135.9,
+    "process_rss_mean_mib": 1364.2315079365083,
+    "process_rss_max_mib": 1395.2,
+    "system_ram_mean_percent": 57.70000000000001,
+    "system_ram_max_percent": 58.2,
+    "gpu_allocated_max_mib": 469.3,
+    "gpu_reserved_max_mib": 542.0,
+    "torch_peak_gpu_allocated_mib": 472.75,
+    "torch_peak_gpu_reserved_mib": 542.0
+  },
+  "total_benchmark_elapsed_seconds": 7.152713200019207,
+  "interpretation_note": "Los resultados corresponden a una RTX 4060 Laptop y no representan necesariamente el rendimiento en CPU, servidores externos o equipos de producción."
+}
