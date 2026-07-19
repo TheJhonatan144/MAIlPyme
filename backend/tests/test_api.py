@@ -22,6 +22,24 @@ def test_get_categories():
     assert "Contratos" in data["categories"]
     assert "Facturas" in data["categories"]
     assert "Varios" in data["categories"]
+    
+def test_model_info():
+
+    response = client.get("/model/info")
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["model_name"] == "MailPyme BETO v2"
+    assert data["base_model"] == "dccuchile/bert-base-spanish-wwm-cased"
+    assert data["architecture"] == "BERT Sequence Classification"
+    assert data["categories"] == 6
+    assert data["max_length"] == 128
+
+    assert "Contratos" in data["labels"]
+    assert "Facturas" in data["labels"]
+    assert "Varios" in data["labels"]
 
 
 def test_classify_factura_email():
@@ -61,11 +79,20 @@ def test_classify_contrato_email():
 
 
 def test_metrics_summary():
+
     response = client.get("/metrics/summary")
 
     assert response.status_code == 200
+
     data = response.json()
 
     assert "total_emails" in data
     assert "by_category" in data
     assert "average_processing_time_ms" in data
+
+    assert "min_processing_time_ms" in data
+    assert "max_processing_time_ms" in data
+    assert "average_confidence" in data
+    assert "last_processed_email" in data
+
+    assert data["total_emails"] >= 0

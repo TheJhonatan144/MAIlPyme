@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 
+
 from app import models
 from app.database import engine
-from app.routers import categories, emails, metrics
+from app.routers import categories, emails, metrics, model
+from app.model_loader import load_model
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -12,6 +14,11 @@ app = FastAPI(
     version="0.2.0",
 )
 
+@app.on_event("startup")
+def startup_event():
+    load_model()
+
+app.include_router(model.router)
 app.include_router(emails.router)
 app.include_router(metrics.router)
 app.include_router(categories.router)
