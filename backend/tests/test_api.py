@@ -24,28 +24,40 @@ def test_get_categories():
     assert "Varios" in data["categories"]
 
 
-def test_classify_email():
+def test_classify_factura_email():
     payload = {
         "sender": "compras@empresa.com",
-        "subject": "Factura pendiente",
-        "body": "Buenas tardes, necesitamos confirmar el pago de la factura emitida.",
+        "subject": "Factura pendiente de pago",
+        "body": "Buenas tardes, adjuntamos la factura emitida correspondiente al servicio contratado.",
     }
 
     response = client.post("/emails/classify", json=payload)
 
     assert response.status_code == 200
+
     data = response.json()
 
     assert data["sender"] == payload["sender"]
-    assert data["predicted_category"] in [
-        "Contratos",
-        "Facturas",
-        "Colaboraciones",
-        "Clientes",
-        "Publicidad",
-        "Varios",
-    ]
-    assert "processing_time_ms" in data
+    assert data["predicted_category"] == "Facturas"
+    assert float(data["confidence"]) > 0.5
+    assert data["processing_time_ms"] > 0
+    
+    
+def test_classify_contrato_email():
+    payload = {
+        "sender": "legal@empresa.com",
+        "subject": "Contrato comercial actualizado",
+        "body": "Adjuntamos el contrato actualizado para revisión y firma.",
+    }
+
+    response = client.post("/emails/classify", json=payload)
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert data["predicted_category"] == "Contratos"
+    assert float(data["confidence"]) > 0.5
 
 
 def test_metrics_summary():
