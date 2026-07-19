@@ -10,6 +10,7 @@ def create_classified_email(db: Session, email: schemas.EmailCreate) -> models.E
     start_time = perf_counter()
 
     predicted_category, confidence = classify_email(
+        sender=email.sender,
         subject=email.subject,
         body=email.body,
     )
