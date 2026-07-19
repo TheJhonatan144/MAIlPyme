@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import torch
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 
@@ -18,12 +17,12 @@ def load_model():
         print("Cargando modelo BETO...")
 
         tokenizer = AutoTokenizer.from_pretrained(
-            MODEL_PATH,
+            str(MODEL_PATH),
             local_files_only=True
         )
 
         model = AutoModelForSequenceClassification.from_pretrained(
-            MODEL_PATH,
+            str(MODEL_PATH),
             local_files_only=True
         )
 
