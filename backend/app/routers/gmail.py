@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from app.database import get_db
 from app import crud, schemas
@@ -19,12 +20,26 @@ def classify_gmail_emails(
     db: Session = Depends(get_db),
 ):
 
-    service = get_gmail_service()
+    try:
+        service = get_gmail_service()
 
-    results = service.users().messages().list(
-        userId="me",
-        maxResults=10
-    ).execute()
+    except Exception as e:
+        raise HTTPException(
+        status_code=500,
+        detail=f"No se pudo conectar con Gmail: {str(e)}"
+    )
+
+    try:
+        results = service.users().messages().list(
+            userId="me",
+            maxResults=10
+        ).execute()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error consultando Gmail: {str(e)}"
+        )
 
     messages = results.get(
         "messages",
@@ -36,11 +51,21 @@ def classify_gmail_emails(
 
     for message in messages:
 
-        email = service.users().messages().get(
-            userId="me",
-            id=message["id"],
-            format="full"
-        ).execute()
+        try:
+
+            email = service.users().messages().get(
+                userId="me",
+                id=message["id"],
+                format="full"
+            ).execute()
+
+        except Exception as e:
+
+            print(
+                f"Error leyendo correo {message['id']}: {e}"
+            )
+
+            continue
 
 
         headers = email["payload"]["headers"]
@@ -80,13 +105,41 @@ def classify_gmail_emails(
             sender=sender,
             subject=subject,
             body=body,
+            gmail_id=message["id"]
         )
 
 
-        saved_email = crud.create_classified_email(
-            db=db,
-            email=email_create,
-        )
+        try:
+            existing_email = crud.get_email_by_gmail_id(
+                db=db,
+                gmail_id=message["id"]
+            )
+
+            if existing_email:
+                saved_email = existing_email
+
+            else:
+                existing_email = crud.get_email_by_gmail_id(
+                    db=db,
+                    gmail_id=message["id"]
+                )
+
+                if existing_email:
+                    saved_email = existing_email
+
+                else:
+                    saved_email = crud.create_classified_email(
+                        db=db,
+                        email=email_create,
+                    )
+
+        except Exception as e:
+
+            print(
+                f"Error clasificando correo: {e}"
+            )
+
+            continue
 
 
         classified.append(
