@@ -94,6 +94,20 @@ def cargar_datos():
         st.sidebar.warning("Backend no disponible. Usando datos demo.")
         return cargar_datos_demo()
 
+def sincronizar_gmail():
+    api_base_url = st.secrets.get(
+        "API_BASE_URL",
+        "http://127.0.0.1:8000"
+    )
+
+    response = requests.post(
+        f"{api_base_url}/gmail/classify",
+        timeout=60
+    )
+
+    response.raise_for_status()
+
+    return response.json()
 
 # =========================
 # Acceso técnico
@@ -493,12 +507,42 @@ def mostrar_formulario_clasificacion():
 # =========================
 # Flujo principal
 # =========================
+# =========================
+# Flujo principal
+# =========================
+
+if st.sidebar.button("Sincronizar Gmail"):
+
+    try:
+        resultado = sincronizar_gmail()
+
+        st.sidebar.success(
+            f"Se procesaron {resultado['processed']} correos"
+        )
+
+        st.cache_data.clear()
+        st.rerun()
+
+    except requests.exceptions.RequestException:
+        st.sidebar.error(
+            "No se pudo conectar con Gmail"
+        )
+
+
 df = cargar_datos()
+
+
 if st.sidebar.button("Actualizar datos"):
     st.cache_data.clear()
     st.rerun()
+
+
 modo_tecnico = verificar_acceso_tecnico()
-df_filtrado = aplicar_filtros(df, modo_tecnico)
+
+df_filtrado = aplicar_filtros(
+    df,
+    modo_tecnico
+)
 
 if modo_tecnico:
     mostrar_vista_tecnica(df_filtrado)
