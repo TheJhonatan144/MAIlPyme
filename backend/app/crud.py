@@ -10,6 +10,7 @@ def create_classified_email(db: Session, email: schemas.EmailCreate) -> models.E
     start_time = perf_counter()
 
     predicted_category, confidence = classify_email(
+        sender=email.sender,
         subject=email.subject,
         body=email.body,
     )
@@ -18,6 +19,7 @@ def create_classified_email(db: Session, email: schemas.EmailCreate) -> models.E
     processing_time_ms = round((end_time - start_time) * 1000, 2)
 
     db_email = models.Email(
+        gmail_id=email.gmail_id,
         sender=email.sender,
         subject=email.subject,
         body=email.body,
@@ -32,6 +34,11 @@ def create_classified_email(db: Session, email: schemas.EmailCreate) -> models.E
 
     return db_email
 
+def get_email_by_gmail_id(db: Session, gmail_id: str):
+
+    return db.query(models.Email)\
+        .filter(models.Email.gmail_id == gmail_id)\
+        .first()
 
 def get_emails(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Email).offset(skip).limit(limit).all()

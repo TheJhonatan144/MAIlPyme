@@ -15,6 +15,7 @@ Category = Literal[
 
 
 class EmailCreate(BaseModel):
+    gmail_id: str | None = None
     sender: str = Field(..., min_length=3, max_length=255)
     subject: str = Field(..., min_length=1, max_length=255)
     body: str = Field(..., min_length=10)
@@ -26,9 +27,9 @@ class EmailResponse(BaseModel):
     subject: str
     body: str
     predicted_category: Category
-    confidence: str
+    confidence: float
     processing_time_ms: float
-    created_at: datetime
+    created_at: datetime | None = None
 
     model_config = {
         "from_attributes": True

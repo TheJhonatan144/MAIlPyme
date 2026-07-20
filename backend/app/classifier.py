@@ -1,27 +1,59 @@
+import torch
+
 from app.schemas import Category
+from app.model_loader import load_model
 
 
-def classify_email(subject: str, body: str) -> tuple[Category, str]:
-    """
-    Clasificador temporal para probar el flujo backend + base de datos.
+labels = [
+    "Contratos",
+    "Facturas",
+    "Colaboraciones",
+    "Clientes",
+    "Publicidad",
+    "Varios",
+]
 
-    Luego será reemplazado por el modelo BETO entrenado.
-    """
-    text = f"{subject} {body}".lower()
 
-    if any(word in text for word in ["contrato", "convenio", "acuerdo", "cláusula", "firma"]):
-        return "Contratos", "temporal"
+def classify_email(
+    sender: str,
+    subject: str,
+    body: str
+) -> tuple[Category, str]:
 
-    if any(word in text for word in ["factura", "pago", "comprobante", "ruc", "valor pendiente"]):
-        return "Facturas", "temporal"
+    tokenizer, model = load_model()
 
-    if any(word in text for word in ["alianza", "colaboración", "propuesta conjunta", "auspicio"]):
-        return "Colaboraciones", "temporal"
+    text = (
+        f"Asunto: {subject} "
+        f"Remitente: {sender} "
+        f"Cuerpo: {body}"
+    )
 
-    if any(word in text for word in ["cliente", "pedido", "reclamo", "soporte", "consulta"]):
-        return "Clientes", "temporal"
+    inputs = tokenizer(
+        text,
+        return_tensors="pt",
+        truncation=True,
+        max_length=128,
+    )
 
-    if any(word in text for word in ["promoción", "descuento", "oferta", "campaña", "publicidad"]):
-        return "Publicidad", "temporal"
+    with torch.no_grad():
 
-    return "Varios", "temporal"
+        outputs = model(**inputs)
+
+        probabilities = torch.nn.functional.softmax(
+            outputs.logits,
+            dim=1
+        )
+
+        confidence, prediction = torch.max(
+            probabilities,
+            dim=1
+        )
+
+    category = labels[prediction.item()]
+
+    confidence_value = round(
+        confidence.item(),
+        4
+    )
+
+    return category, str(confidence_value)

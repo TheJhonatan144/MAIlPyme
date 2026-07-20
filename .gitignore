@@ -49,3 +49,7 @@ Thumbs.db
 
 # Modelo BETO oficial administrado con Git LFS
 !backend/models/mailpyme_beto_model/model.safetensors
+
+# Gmail OAuth
+credentials.json
+token.json

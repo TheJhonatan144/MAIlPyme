@@ -9,11 +9,20 @@ class Email(Base):
     __tablename__ = "emails"
 
     id = Column(Integer, primary_key=True, index=True)
-    sender = Column(String(255), nullable=False)
-    subject = Column(String(255), nullable=False)
-    body = Column(Text, nullable=False)
-    predicted_category = Column(String(50), nullable=False)
-    confidence = Column(String(20), nullable=False, default="temporal")
-    processing_time_ms = Column(Float, nullable=False, default=0.0)
-    created_at = Column(DateTime, default=datetime.utcnow)
-    
+
+    gmail_id = Column(
+        String,
+        unique=True,
+        nullable=True
+    )
+
+    sender = Column(String)
+    subject = Column(String)
+    body = Column(Text)
+    predicted_category = Column(String)
+    confidence = Column(Float)
+    processing_time_ms = Column(Float)
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )
