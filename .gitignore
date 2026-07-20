@@ -38,6 +38,8 @@ node_modules/
 dist/
 build/
 .env.local
+frontend/.venv/
+frontend/.streamlit/secrets.toml
 
 # Sistema
 .DS_Store
