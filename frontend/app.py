@@ -12,7 +12,85 @@ import streamlit as st
 st.set_page_config(
     page_title="MailPyme AI",
     page_icon="",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+
+# =========================
+# Estilos CSS (Paleta MailPyme AI)
+# =========================
+st.markdown(
+    """
+    <style>
+    /* Paleta MailPyme:
+       Primary Accent: #00A8E8 (Cyan Eléctrico)
+       Deep Navy: #0B2545 / #134074 (Azul Marino)
+       Ice Blue: #EBF4F6 (Fondo Claro)
+       Surface White: #FFFFFF
+    */
+
+    h1, h2, h3 {
+        color: #0B2545 !important;
+        font-weight: 700 !important;
+    }
+
+    h1 {
+        border-left: 5px solid #00A8E8;
+        padding-left: 12px;
+    }
+
+    /* Botones */
+    .stButton > button {
+        background-color: #0B2545 !important;
+        color: #FFFFFF !important;
+        border-radius: 8px !important;
+        border: 1px solid #134074 !important;
+        font-weight: 600 !important;
+        transition: all 0.3s ease !important;
+    }
+
+    .stButton > button:hover {
+        background-color: #00A8E8 !important;
+        color: #FFFFFF !important;
+        border-color: #00A8E8 !important;
+        box-shadow: 0 4px 12px rgba(0, 168, 232, 0.3) !important;
+    }
+
+    /* Métricas */
+    [data-testid="stMetric"] {
+        background-color: #FFFFFF !important;
+        border-radius: 10px !important;
+        padding: 14px 18px !important;
+        border: 1px solid #D4E2EE !important;
+        box-shadow: 0 2px 8px rgba(11, 37, 69, 0.05) !important;
+    }
+
+    [data-testid="stMetricValue"] {
+        color: #00A8E8 !important;
+        font-weight: 700 !important;
+    }
+
+    [data-testid="stMetricLabel"] {
+        color: #134074 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Dataframe styling */
+    [data-testid="stDataFrame"] {
+        border-radius: 10px !important;
+        border: 1px solid #D4E2EE !important;
+        box-shadow: 0 2px 8px rgba(11, 37, 69, 0.04) !important;
+    }
+
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #EBF4F6 !important;
+        border-right: 1px solid #D4E2EE !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 
@@ -209,7 +287,7 @@ def aplicar_filtros(df, modo_tecnico=False):
 
         if confianza_numerica.notna().any():
             confianza_minima = st.sidebar.slider(
-                "Confianza mínima",
+                "Probabilidad mínima",
                 min_value=0.0,
                 max_value=1.0,
                 value=0.0,
@@ -221,16 +299,17 @@ def aplicar_filtros(df, modo_tecnico=False):
             ]
         else:
             st.sidebar.info(
-                "La confianza actual del backend es temporal y no numérica."
+                "La probabilidad actual del backend es temporal y no numérica."
             )
 
-    return df_filtrado
+    return df_filtrado.reset_index(drop=True)
 
 
 # =========================
 # Vista usuario final
 # =========================
 def mostrar_vista_usuario(df_filtrado):
+    df_filtrado = df_filtrado.reset_index(drop=True)
     st.title("MailPyme AI")
     st.caption("Bandeja de correos clasificados automáticamente.")
 
@@ -260,10 +339,13 @@ def mostrar_vista_usuario(df_filtrado):
     ]
 
     if total_correos > 0:
-        st.dataframe(
+        event = st.dataframe(
             df_filtrado[columnas_usuario],
             use_container_width=True,
-            hide_index=True
+            hide_index=True,
+            on_select="rerun",
+            selection_mode="single-row",
+            key="tabla_correos_usuario"
         )
     else:
         st.warning("No hay correos disponibles con los filtros actuales.")
@@ -273,15 +355,15 @@ def mostrar_vista_usuario(df_filtrado):
 
     st.subheader("Detalle del correo")
 
-    opciones = df_filtrado["id"].astype(str) + " - " + df_filtrado["asunto"]
-
-    correo_seleccionado = st.selectbox(
-        "Selecciona un correo para ver el contenido",
-        opciones
+    indices_seleccionados = (
+        event.selection.rows
+        if hasattr(event, "selection") and hasattr(event.selection, "rows")
+        else []
     )
-
-    id_correo = int(correo_seleccionado.split(" - ")[0])
-    correo = df_filtrado[df_filtrado["id"] == id_correo].iloc[0]
+    if indices_seleccionados and indices_seleccionados[0] < len(df_filtrado):
+        correo = df_filtrado.iloc[indices_seleccionados[0]]
+    else:
+        correo = df_filtrado.iloc[0]
 
     col1, col2 = st.columns([2, 1])
 
@@ -297,7 +379,7 @@ def mostrar_vista_usuario(df_filtrado):
         st.success(correo["categoria"])
 
     st.caption(
-        "Vista de usuario final: se ocultan métricas técnicas, confianza del modelo y gráficos internos."
+        "Vista de usuario final: se ocultan métricas técnicas, probabilidad del modelo y gráficos internos."
     )
 
 
@@ -305,9 +387,10 @@ def mostrar_vista_usuario(df_filtrado):
 # Vista desarrollador/modelo
 # =========================
 def mostrar_vista_tecnica(df_filtrado):
+    df_filtrado = df_filtrado.reset_index(drop=True)
     st.title("Panel técnico del modelo")
     st.caption(
-        "Vista para revisar métricas, confianza y comportamiento de la clasificación."
+        "Vista para revisar métricas, probabilidad y comportamiento de la clasificación."
     )
 
     total_correos = len(df_filtrado)
@@ -334,9 +417,9 @@ def mostrar_vista_tecnica(df_filtrado):
 
     with col2:
         if confianza_promedio is not None:
-            st.metric("Confianza promedio", f"{confianza_promedio:.2%}")
+            st.metric("Probabilidad promedio", f"{confianza_promedio:.2%}")
         else:
-            st.metric("Confianza promedio", "Temporal")
+            st.metric("Probabilidad promedio", "Temporal")
 
     with col3:
         st.metric("Categoría más frecuente", categoria_mas_frecuente)
@@ -361,7 +444,9 @@ def mostrar_vista_tecnica(df_filtrado):
                 x="categoria",
                 y="cantidad",
                 text="cantidad",
-                title="Cantidad de correos por categoría"
+                title="Cantidad de correos por categoría",
+                color="categoria",
+                color_discrete_sequence=["#00A8E8", "#0B2545", "#134074", "#0077B6", "#48CAE4", "#90E0EF"]
             )
 
             st.plotly_chart(fig_categorias, use_container_width=True)
@@ -369,7 +454,7 @@ def mostrar_vista_tecnica(df_filtrado):
             st.info("No hay datos para mostrar con los filtros actuales.")
 
     with col_graf2:
-        st.subheader("Confianza por correo")
+        st.subheader("Probabilidad por correo")
 
         confianza_numerica = pd.to_numeric(
             df_filtrado["confianza"],
@@ -386,14 +471,15 @@ def mostrar_vista_tecnica(df_filtrado):
                 y="confianza_numerica",
                 color="categoria",
                 hover_data=["asunto", "remitente"],
-                title="Nivel de confianza de clasificación"
+                title="Nivel de probabilidad de clasificación",
+                color_discrete_sequence=["#00A8E8", "#0B2545", "#134074", "#0077B6", "#48CAE4", "#90E0EF"]
             )
 
             st.plotly_chart(fig_confianza, use_container_width=True)
         elif total_correos > 0:
             st.info(
-                "El backend actual devuelve una confianza temporal. "
-                "El gráfico estará disponible cuando la confianza sea numérica."
+                "El backend actual devuelve una probabilidad temporal. "
+                "El gráfico estará disponible cuando la probabilidad sea numérica."
             )
         else:
             st.info("No hay datos para mostrar con los filtros actuales.")
@@ -412,10 +498,13 @@ def mostrar_vista_tecnica(df_filtrado):
     ]
 
     if total_correos > 0:
-        st.dataframe(
+        event = st.dataframe(
             df_filtrado[columnas_tecnicas],
             use_container_width=True,
-            hide_index=True
+            hide_index=True,
+            on_select="rerun",
+            selection_mode="single-row",
+            key="tabla_correos_tecnico"
         )
     else:
         st.warning("No hay correos disponibles con los filtros actuales.")
@@ -425,15 +514,15 @@ def mostrar_vista_tecnica(df_filtrado):
 
     st.subheader("Detalle técnico del correo")
 
-    opciones = df_filtrado["id"].astype(str) + " - " + df_filtrado["asunto"]
-
-    correo_seleccionado = st.selectbox(
-        "Selecciona un correo para revisar el resultado del modelo",
-        opciones
+    indices_seleccionados = (
+        event.selection.rows
+        if hasattr(event, "selection") and hasattr(event.selection, "rows")
+        else []
     )
-
-    id_correo = int(correo_seleccionado.split(" - ")[0])
-    correo = df_filtrado[df_filtrado["id"] == id_correo].iloc[0]
+    if indices_seleccionados and indices_seleccionados[0] < len(df_filtrado):
+        correo = df_filtrado.iloc[indices_seleccionados[0]]
+    else:
+        correo = df_filtrado.iloc[0]
 
     col_det1, col_det2 = st.columns([2, 1])
 
@@ -453,13 +542,13 @@ def mostrar_vista_tecnica(df_filtrado):
         ).iloc[0]
 
         if pd.notna(confianza_correo):
-            st.metric("Confianza", f"{confianza_correo:.2%}")
+            st.metric("Probabilidad", f"{confianza_correo:.2%}")
         else:
-            st.metric("Confianza", str(correo["confianza"]))
+            st.metric("Probabilidad", str(correo["confianza"]))
         st.markdown(f"**Estado:** {correo['estado']}")
 
     st.caption(
-        "Vista técnica: acceso restringido para revisión del modelo, métricas y confianza."
+        "Vista técnica: acceso restringido para revisión del modelo, métricas y probabilidad."
     )
 
 # ==============================
