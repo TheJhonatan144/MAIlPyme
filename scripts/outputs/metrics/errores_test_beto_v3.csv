@@ -1,0 +1,4 @@
+﻿id,source,label_real,label_predicha,confianza,correcto
+617,synthetic,Clientes,Varios,0.861695,False
+719,synthetic,Colaboraciones,Clientes,0.500714,False
+678,synthetic,Colaboraciones,Clientes,0.711656,False

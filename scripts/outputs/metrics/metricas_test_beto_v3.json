@@ -1,0 +1,51 @@
+{
+  "status": "OK",
+  "timestamp_local": "2026-07-27 16:00:27",
+  "model_dir": "C:\\Users\\Jhona\\Documents\\ENSAYO_FINAL\\scripts\\outputs\\models\\mailpyme_beto_model_v3",
+  "test_file": "C:\\Users\\Jhona\\Documents\\ENSAYO_FINAL\\scripts\\data\\processed\\test.csv",
+  "test_sha256": "54e19cd422912f00fa486797be8492196cb034d4b571a653bc908c6bc7fd1fd9",
+  "num_test_samples": 84,
+  "metrics": {
+    "accuracy": 0.9642857142857143,
+    "precision_macro": 0.9716775599128541,
+    "recall_macro": 0.9645550527903469,
+    "f1_macro": 0.9667748917748917,
+    "precision_weighted": 0.9663087457205105,
+    "recall_weighted": 0.9642857142857143,
+    "f1_weighted": 0.9639842300556586
+  },
+  "confidence": {
+    "mean_all": 0.9752545356750488,
+    "mean_correct": 0.9857692122459412,
+    "mean_errors": 0.6913551688194275
+  },
+  "errors": {
+    "count": 3,
+    "rate": 0.03571428571428571
+  },
+  "performance": {
+    "batch_size": 16,
+    "max_length": 128,
+    "elapsed_seconds": 0.08406400005333126,
+    "samples_per_second": 999.2386746610838,
+    "batch_equivalent_ms_per_email": 1.0007619053968007,
+    "gpu_peak_memory_mib": 455.09,
+    "note": "Esta medición corresponde a evaluación por lotes. La latencia individual se medirá en el siguiente paso."
+  },
+  "environment": {
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "pytorch": "2.12.1+cu130",
+    "transformers": "5.14.1",
+    "cuda_compiled": "13.0",
+    "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU"
+  },
+  "labels": [
+    "Contratos",
+    "Facturas",
+    "Colaboraciones",
+    "Clientes",
+    "Publicidad",
+    "Varios"
+  ]
+}

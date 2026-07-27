@@ -1,4 +1,4 @@
-# MailPyme AI - BETO v2
+# MailPyme AI - BETO v3
 
 Modelo de clasificación de correos empresariales en español para el MVP MailPyme AI.
 
@@ -84,17 +84,18 @@ def clasificar_correo(subject: str, sender: str, body: str) -> dict:
     return {
         "category": model.config.id2label[int(predicted_id.item())],
         "confidence": float(confidence.item()),
-        "status": "classified",
+        "status": "classified" if confidence.item() >= 0.75 else "manual_review",
     }
 ```
 
 ## Resultados internos
 
-- Accuracy en test interno: 1.0000
-- F1 macro en test interno: 1.0000
+- Accuracy en test interno: 0.9643
+- F1 macro en test interno: 0.9668
 - Test: 84 correos
-- Latencia media individual en RTX 4060 Laptop: 7.10 ms
+- Latencia media individual en RTX 4060 Laptop: 6.91 ms
 - Estabilidad: 100 % en 500 ejecuciones
+- Umbral de revisión manual: 0.75
 
 Estos resultados corresponden a un conjunto de prueba interno pequeño y no garantizan el mismo rendimiento sobre correos externos.
 
