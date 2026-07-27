@@ -21,3 +21,7 @@ __pycache__/
 # Archivos temporales
 .DS_Store
 Thumbs.db
+# Credenciales OAuth Gmail
+credentials.json
+token.json
+*.json.bak
