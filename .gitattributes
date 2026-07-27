@@ -1,1 +1,2 @@
 *.safetensors filter=lfs diff=lfs merge=lfs -text
+backend/models/mailpyme_beto_model/*.safetensors filter=lfs diff=lfs merge=lfs -text

@@ -55,3 +55,10 @@ Thumbs.db
 # Gmail OAuth
 credentials.json
 token.json
+
+# Archivos locales de entrenamiento BETO
+runs/
+scripts/cache/
+scripts/data/
+scripts/outputs/backups/
+scripts/outputs/models/

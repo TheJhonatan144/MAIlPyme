@@ -1,6 +1,6 @@
 {
   "model_name": "dccuchile/bert-base-spanish-wwm-cased",
-  "model_version": "mailpyme_beto_v2",
+  "model_version": "mailpyme_beto_v3",
   "max_length": 128,
   "num_labels": 6,
   "labels": [
@@ -12,16 +12,25 @@
     "Varios"
   ],
   "input_format": "Asunto: {subject} Remitente: {sender} Cuerpo: {body}",
-  "dataset_size": 840,
+  "dataset_size": 838,
   "split_sizes": {
-    "train": 672,
+    "train": 670,
     "validation": 84,
     "test": 84
   },
+  "review_threshold": 0.75,
   "test_metrics": {
-    "accuracy": 1.0,
-    "f1_macro": 1.0,
-    "f1_weighted": 1.0
+    "accuracy": 0.9642857143,
+    "precision_macro": 0.9716775599,
+    "recall_macro": 0.9645550528,
+    "f1_macro": 0.9667748918,
+    "f1_weighted": 0.9639842301
+  },
+  "benchmark": {
+    "mean_latency_ms": 6.9089,
+    "p95_latency_ms": 8.3692,
+    "stability_success_rate": 1.0,
+    "stability_executions": 500
   },
   "privacy_note": "No publicar datasets, correos reales ni archivos con datos sensibles."
 }
