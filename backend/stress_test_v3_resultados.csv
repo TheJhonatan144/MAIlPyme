@@ -1,0 +1,19 @@
+﻿n,grupo,esperado,predicho,confianza,estado,latencia_ms,asunto
+1,A-Frontera,Contratos/Facturas,Facturas,0.9588,Clasificado,94.19,Anticipo segun contrato
+2,A-Frontera,Colab/Clientes,Colaboraciones,0.6603,REVISION MANUAL,33.92,Trabajar juntos y cotizar
+3,A-Frontera,Publicidad,Publicidad,0.888,Clasificado,34.64,Su cuenta requiere atencion
+4,A-Frontera,Colab/Publicidad,Publicidad,0.9767,Clasificado,44.26,Campana conjunta con descuentos
+5,A-Frontera,Contratos/Colab,Contratos,0.9691,Clasificado,29.62,Convenio de alianza para firma
+6,A-Frontera,Facturas/Clientes,Facturas,0.9881,Clasificado,25.89,Consulta sobre mi factura
+7,B-SinSenales,Varios/Clientes,Clientes,0.9323,Clasificado,27.11,Sobre lo de ayer
+8,B-SinSenales,Varios/Clientes,Clientes,0.984,Clasificado,28.1,Seguimiento
+9,B-SinSenales,Varios/Clientes,Clientes,0.9805,Clasificado,23.47,Informacion
+10,C-Ruido,Baja confianza,Varios,0.9904,Clasificado,33.02,asdkjh qwerty
+11,C-Ruido,Baja confianza,Varios,0.9911,Clasificado,43.44,xxxxxx yyyyyy
+12,C-Ruido,Baja confianza,Varios,0.6032,REVISION MANUAL,25.97,hola q tal
+13,D-Varios,Varios,Varios,0.8905,Clasificado,31.68,Invitacion a charla
+14,D-Varios,Varios,Varios,0.9876,Clasificado,31.79,Recordatorio reunion
+15,E-Control,Facturas,Facturas,0.993,Clasificado,29.55,Factura 001-234 vencida
+16,E-Control,Contratos,Contratos,0.9904,Clasificado,31.52,Contrato de arrendamiento
+17,E-Control,Publicidad,Publicidad,0.9942,Clasificado,24.34,Mega descuentos esta semana
+18,E-Control,Clientes,Clientes,0.9091,Clasificado,25.35,Cotizacion de servicio
