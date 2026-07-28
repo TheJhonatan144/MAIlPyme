@@ -23,7 +23,7 @@ def classify_and_save_email(
 @router.get("/", response_model=List[schemas.EmailResponse])
 def list_emails(
     skip: int = 0,
-    limit: int = 100,
+    limit: int = 1000,
     db: Session = Depends(get_db),
 ):
     return crud.get_emails(db=db, skip=skip, limit=limit)
